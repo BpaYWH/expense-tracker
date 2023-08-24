@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import { ApolloWrapper } from "@/lib/graphql/apollo-provider";
+import SideBar from "@/components/SideBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +20,13 @@ export default function RootLayout({
 }): JSX.Element {
 	return (
 		<html>
-			<body className={inter.className}>
+			<body className={`${inter.className} grid grid-cols-12`}>
+				<SideBar />
+
 				<ApolloWrapper>
-					{children}
+					<div className="col-span-11">
+						{children}
+					</div>
 				</ApolloWrapper>
 			</body>
 		</html>

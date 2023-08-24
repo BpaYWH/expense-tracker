@@ -24,6 +24,7 @@ const AddUserMutation = gql`
   }
 `;
 
+//! TODO: delete referenced groups & expenses / Cannot delete user w/ expenses referenced
 const DeleteUserMutation = gql`
   mutation deleteUser($id: ID!) {
     deleteUser(id: $id) {
@@ -32,8 +33,10 @@ const DeleteUserMutation = gql`
   }
 `;
 
+//! FIX: refetch not working
 export default function Home(): JSX.Element {
   const [name, setName] = React.useState<string>("");
+  const [isEditing, setIsEditing] = React.useState<boolean>(false);
   
   const { error, data } = useSuspenseQuery(query);
   if (error != null) return <div>Error! ${error.message}</div>;
@@ -66,13 +69,22 @@ export default function Home(): JSX.Element {
 
 	return (
 		<div className="px-4 py-8">
-      <h2 className="text-xl mb-4">User list</h2>
+      <div id="Header" className="flex gap-4">
+        <h2 className="text-xl mb-4">User list</h2>
+        <button className="px-4 py-1 border border-slate-100 rounded-md hover:bg-slate-50 hover:border-slate-200 hover:drop-shadow-sm transition" onClick={() => {setIsEditing(!isEditing)}}>
+          {
+            !isEditing ?
+            "Edit" :
+            "Save"
+          }
+        </button>
+      </div>
       <div className="mb-8">
         {
           (data as any).users.map((user: IUser) => {
             return (
                 <div key={`user-${user.id}`} className="flex gap-4">
-                  <button onClick={() => {void handleDeleteUser(user.id)}} className="p-1 hover:bg-slate-100 hover:drop-shadow-md rounded-md text-red-500">
+                  <button onClick={() => {void handleDeleteUser(user.id)}} className="p-1 hover:bg-slate-100 hover:drop-shadow-md rounded-md text-red-500" hidden={!isEditing}>
                   X
                   </button> 
                   <p className="flex flex-col justify-center">{user.name}</p>
