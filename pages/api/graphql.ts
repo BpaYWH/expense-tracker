@@ -7,10 +7,10 @@ import { resolvers } from "@/lib/graphql/resolver";
 import { prisma } from "@/prisma/db";
 
 const apolloServer = new ApolloServer<Context>({
-   resolvers,
-   typeDefs
+	resolvers,
+	typeDefs,
 });
 
 export default startServerAndCreateNextHandler(apolloServer, {
-   context: async (req, res) => ({ req, res, prisma })
+	context: async (req, res) => ({ req, res, prisma }),
 });

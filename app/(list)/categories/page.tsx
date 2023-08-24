@@ -1,9 +1,7 @@
 import React from "react";
 
 function CategoryPage(): JSX.Element {
-  return (
-    <div>CategoryPage</div>
-  )
+	return <div>CategoryPage</div>;
 }
 
 export default CategoryPage;
