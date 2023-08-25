@@ -8,7 +8,9 @@ export type User = {
 	name: string;
 };
 
-export const columns: ColumnDef<User>[] = [
+export const columns = (mutators: any): ColumnDef<User>[] => {
+	return (
+ [
 	{
 		accessorKey: "id",
 		header: "ID",
@@ -22,8 +24,9 @@ export const columns: ColumnDef<User>[] = [
 		cell: ({ row }) => {
          const user = row.original;
          return (
-            <ActionsCell id={user.id} name={user.name} />
+            <ActionsCell id={user.id} name={user.name} updator={mutators.updator} deleter={mutators.deleter} />
          );
       },
 	},
-];
+]);
+}

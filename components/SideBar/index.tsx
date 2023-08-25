@@ -16,7 +16,7 @@ function SideBar(): JSX.Element {
 			<div id="content">
 				<div className="w-1/2 min-w-[24px] mx-auto mb-4">
 					<a href="/">
-						<img src="/images/logo.png" alt="logo" className="py-1 rounded-2xl" />
+						<img src="/images/logo.svg" alt="logo" className="py-1 rounded-2xl aspect-square" />
 					</a>
 				</div>
 

@@ -116,7 +116,7 @@ export const resolvers = {
 					id: Number(args.id),
 				},
 				data: {
-					name: args.newName,
+					name: args.name,
 				},
 			});
 		},
