@@ -153,20 +153,20 @@ export const resolvers = {
 		updateShop: async (parent: any, args: any, context: Context) => {
 			return await context.prisma.shop.update({
 				where: {
-					name: args.name,
+					id: Number(args.id),
 				},
 				data: {
-					name: args.newName,
+					name: args.name,
 				},
 			});
 		},
 		updateCategory: async (parent: any, args: any, context: Context) => {
 			return await context.prisma.category.update({
 				where: {
-					name: args.name,
+					id: Number(args.id),
 				},
 				data: {
-					name: args.newName,
+					name: args.name,
 				},
 			});
 		},

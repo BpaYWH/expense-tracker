@@ -30,3 +30,20 @@ export const groupQuery = gql`
    }
 `;
 
+export const shopsQuery = gql`
+   query Shops {
+      shops {
+         id
+         name
+      }
+   }
+`;
+
+export const categoriesQuery = gql`
+   query Category {
+      categories {
+         id
+         name
+      }
+   }
+`;

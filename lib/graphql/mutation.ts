@@ -50,3 +50,51 @@ export const DeleteGroupMutation = gql`
 		}
 	}
 `;
+
+export const AddShopMutation = gql`
+   mutation addShop($name: String!) {
+      addShop(name: $name) {
+         id
+			name
+		}
+	}
+`;
+export const UpdateShopMutation = gql`
+   mutation updateShop($id: ID!, $name: String!) {
+      updateShop(id: $id, name: $name) {
+         id
+			name
+		}
+	}
+`;
+export const DeleteShopMutation = gql`
+   mutation deleteShop($id: ID!) {
+      deleteShop(id: $id) {
+         id
+		}
+	}
+`;
+
+export const AddCategoryMutation = gql`
+   mutation addCategory($name: String!) {
+      addCategory(name: $name) {
+         id
+			name
+		}
+	}
+`;
+export const UpdateCategoryMutation = gql`
+   mutation updateCategory($id: ID!, $name: String!) {
+      updateCategory(id: $id, name: $name) {
+         id
+			name
+		}
+	}
+`;
+export const DeleteCategoryMutation = gql`
+   mutation deleteCategory($id: ID!) {
+      deleteCategory(id: $id) {
+         id
+		}
+	}
+`;
