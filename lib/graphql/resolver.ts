@@ -121,13 +121,33 @@ export const resolvers = {
 			});
 		},
 		updateGroup: async (parent: any, args: any, context: Context) => {
+			const originalUsers = await context.prisma.group.findFirst({
+				where: {
+					id: Number(args.id),
+				},
+				include: {
+					users: {
+						select: {
+							id: true
+						}
+					}
+				},
+			});
+			
+			const usersToConnect = args.users.filter((name: string) => !originalUsers?.users.map((user: any) => user.name).includes(name))?.map((id: string) => ({ id: Number(id) }));
+			const usersToDisconnect = originalUsers?.users.filter((user: any) => !args.users.includes(user.name));
+
 			return await context.prisma.group.update({
 				where: {
-					name: args.name,
+					id: Number(args.id),
 				},
 				data: {
-					name: args.newName,
-				},
+					name: args.name,
+					users: {
+						connect: usersToConnect,
+						disconnect: usersToDisconnect
+					}
+				}
 			});
 		},
 		updateShop: async (parent: any, args: any, context: Context) => {
@@ -218,19 +238,6 @@ export const resolvers = {
 			return await context.prisma.expense.delete({
 				where: {
 					id: Number(args.id),
-				},
-			});
-		},
-	},
-	Group: {
-		users: async (parent: any, args: any, context: Context) => {
-			return await context.prisma.user.findMany({
-				where: {
-					groups: {
-						some: {
-							id: parent.id,
-						},
-					},
 				},
 			});
 		},

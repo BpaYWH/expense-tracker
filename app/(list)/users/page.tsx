@@ -4,8 +4,9 @@ import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { useMutation } from "@apollo/client";
 
 import { columns } from "./columns";
-import { DataTable } from "../../../components/data-table";
+import DataTable from "@/components/data-table";
 import MutationDialog from "@/components/mutation-dialog";
+
 import { usersQuery } from "@/lib/graphql/query";
 import { AddUserMutation, DeleteUserMutation, UpdateUserMutation } from "@/lib/graphql/mutation";
 
@@ -17,7 +18,6 @@ const AddUserDialogProps = {
 	inputLabel: "Name",
 }
 
-//! TODO: Refresh the data table when the user is added.
 function UserPage(): JSX.Element {
 	const { error, data } = useSuspenseQuery(usersQuery);
 	if (error != null) return <div>Error! ${error.message}</div>;
@@ -31,6 +31,7 @@ function UserPage(): JSX.Element {
 	const [deleteUser] = useMutation(DeleteUserMutation, {
 		refetchQueries: [usersQuery],
 	});
+
 	return (
 		<div>
 			<div

@@ -58,7 +58,7 @@ export const typeDefs = `#graphql
       addExpense(item: String!, price: Float!, taxRate: Float!, shopId: ID!, paidAt: String, userId: ID, groupId: ID, categoryId: ID, consumedUsers: [ID]): Expense
 
       updateUser(id: ID!, name: String!): User
-      updateGroup(id: ID!, name: String!): Group
+      updateGroup(id: ID!, name: String!, users: [ID]): Group
       updateShop(id: ID!, name: String!): Shop
       updateCategory(id: ID!, name: String!): Category
       updateExpense(id: ID!, item: String!, price: Float!, taxRate: Float!, shopId: ID!, paidAt: String, userId: ID, groupId: ID, categoryId: ID, consumedUsers: [ID]): Expense

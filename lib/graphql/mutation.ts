@@ -33,10 +33,13 @@ export const AddGroupMutation = gql`
 	}
 `;
 export const UpdateGroupMutation = gql`
-   mutation updateGroup($id: ID!, $name: String!) {
-      updateGroup(id: $id, name: $name) {
+   mutation updateGroup($id: ID!, $name: String!, $users: [ID]) {
+      updateGroup(id: $id, name: $name, users: $users) {
          id
 			name
+			users {
+				id
+			}
 		}
 	}
 `;

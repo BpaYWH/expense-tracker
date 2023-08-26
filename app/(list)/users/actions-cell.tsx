@@ -1,6 +1,5 @@
 "use client";
 import React from 'react'
-import { useMutation } from "@apollo/client";
 import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
 import {
@@ -29,7 +28,6 @@ const UpdateUserDialogProps = {
 	inputLabel: "Name",
 }
 
-//! TODO: updateUser not working
 function ActionsCell({ id, name, updator, deleter }: Props): JSX.Element {
    const [confirmName, setConfirmName] = React.useState<string>("");
 

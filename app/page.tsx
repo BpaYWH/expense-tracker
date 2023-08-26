@@ -12,7 +12,6 @@ interface IUser {
 	name: string;
 }
 
-//! FIX: refetch not working
 export default function Home(): JSX.Element {
 	const [name, setName] = React.useState<string>("");
 	const [isEditing, setIsEditing] = React.useState<boolean>(false);
