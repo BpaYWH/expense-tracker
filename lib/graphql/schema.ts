@@ -20,7 +20,7 @@ export const typeDefs = `#graphql
       shop: Shop
       shopId: ID
       paidAt: String
-      paidUser: User!
+      paidUser: User
       userId: ID
       consumedUsers: [User]
       group: Group
@@ -42,10 +42,11 @@ export const typeDefs = `#graphql
    }
 
    type Query {
-      user: User
+      user(id: ID!): User
       users: [User]
+      group(id: ID!): Group
       groups: [Group]
-      expenses: [Expense]
+      expenses(groupId: ID!): [Expense]
       shops: [Shop]
       categories: [Category]
    }

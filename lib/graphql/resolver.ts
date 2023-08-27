@@ -1,4 +1,5 @@
 import type { PrismaClient } from "@prisma/client";
+import fromUnixTime from 'date-fns/fromUnixTime'
 
 export interface Context {
 	prisma: PrismaClient;
@@ -9,7 +10,7 @@ export const resolvers = {
 		user: async (parent: any, args: any, context: Context) => {
 			return await context.prisma.user.findUnique({
 				where: {
-					id: args.id,
+					id: Number(args.id),
 				},
 				include: {
 					groups: true,
@@ -23,6 +24,16 @@ export const resolvers = {
 				},
 			});
 		},
+		group: async (parent: any, args: any, context: Context) => {
+			return await context.prisma.group.findUnique({
+				where: {
+					id: Number(args.id),
+				},
+				include: {
+					users: true,
+				},
+			});
+		},
 		groups: async (parent: any, args: any, context: Context) => {
 			return await context.prisma.group.findMany({
 				include: {
@@ -32,9 +43,18 @@ export const resolvers = {
 		},
 		expenses: async (parent: any, args: any, context: Context) => {
 			return await context.prisma.expense.findMany({
+				where: {
+					group: {
+						id: Number(args.groupId),
+					},
+				},
 				include: {
 					paidUser: true,
-					group: true,
+					group: {
+						include: {
+							users: true,
+						}
+					},
 					shop: true,
 					category: true,
 					consumedUsers: true,
@@ -81,31 +101,31 @@ export const resolvers = {
 			return await context.prisma.expense.create({
 				data: {
 					item: args.item,
-					price: args.price,
-					taxRate: args.taxRate,
-					paidAt: args.paidAt,
+					price: Number(args.price),
+					taxRate: Number(args.taxRate),
+					paidAt: fromUnixTime(args.paidAt),
 					paidUser: {
 						connect: {
-							name: args.paidUser,
+							id: Number(args.userId),
 						},
 					},
 					group: {
 						connect: {
-							name: args.group,
+							id: Number(args.groupId),
 						},
 					},
 					shop: {
 						connect: {
-							name: args.shop,
+							id: Number(args.shopId),
 						},
 					},
 					category: {
 						connect: {
-							name: args.category,
+							id: Number(args.categoryId),
 						},
 					},
 					consumedUsers: {
-						connect: args.consumedUsers.map((name: string) => name),
+						connect: args.consumedUsers?.map((id: string) => { id: Number(id) }),
 					},
 				},
 			});
@@ -171,37 +191,43 @@ export const resolvers = {
 			});
 		},
 		updateExpense: async (parent: any, args: any, context: Context) => {
+			// const original = await context.prisma.expense.findFirst({
+			// 	where: {
+			// 		id: Number(args.id)
+			// 	},
+			// 	include: {
+			// 		shop: true,
+			// 		category: true,
+			// 		consumedUsers: true
+			// 	}
+			// });
+
 			return await context.prisma.expense.update({
 				where: {
-					id: args.id,
+					id: Number(args.id),
 				},
 				data: {
 					item: args.item,
-					price: args.price,
-					taxRate: args.taxRate,
-					paidAt: args.paidAt,
+					price: Number(args.price),
+					taxRate: Number(args.taxRate),
+					paidAt: fromUnixTime(Number(args.paidAt)/1000),
 					paidUser: {
 						connect: {
-							name: args.paidUser,
-						},
-					},
-					group: {
-						connect: {
-							name: args.group,
+							id: Number(args.userId),
 						},
 					},
 					shop: {
 						connect: {
-							name: args.shop,
+							id: Number(args.shopId),
 						},
 					},
 					category: {
 						connect: {
-							name: args.category,
+							id: Number(args.categoryId),
 						},
 					},
 					consumedUsers: {
-						connect: args.consumedUsers.map((name: string) => name),
+						connect: args.consumedUsers?.map((id: string) => { id: Number(id) }),
 					},
 				},
 			});

@@ -4,11 +4,10 @@ import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { useMutation } from "@apollo/client";
 
 import { columns } from "./columns";
-// import { DataTable } from "./data-table";
 import DataTable from "@/components/data-table";
 import MutationDialog from "@/components/mutation-dialog";
 
-import { groupQuery } from "@/lib/graphql/query";
+import { groupsQuery } from "@/lib/graphql/query";
 import { AddGroupMutation, DeleteGroupMutation, UpdateGroupMutation } from "@/lib/graphql/mutation";
 
 const AddGroupDialogProps = {
@@ -20,17 +19,17 @@ const AddGroupDialogProps = {
 }
 
 function GroupPage(): JSX.Element {
-	const { error, data } = useSuspenseQuery(groupQuery);
+	const { error, data } = useSuspenseQuery(groupsQuery);
 	if (error != null) return <div>Error! ${error.message}</div>;
 
 	const [addGroup] = useMutation(AddGroupMutation, {
-		refetchQueries: [groupQuery],
+		refetchQueries: [groupsQuery],
 	});
 	const [updateGroup] = useMutation(UpdateGroupMutation, {
-		refetchQueries: [groupQuery],
+		refetchQueries: [groupsQuery],
 	});
 	const [deleteGroup] = useMutation(DeleteGroupMutation, {
-		refetchQueries: [groupQuery],
+		refetchQueries: [groupsQuery],
 	});
 
 	return (

@@ -14,6 +14,19 @@ export const usersQuery = gql`
 `;
 
 export const groupQuery = gql`
+   query Group($id: ID!) {
+      group(id: $id) {
+         id
+         name
+         users {
+            id
+            name
+         }
+      }
+   }
+`;
+
+export const groupsQuery = gql`
    query Groups {
       groups {
          id
@@ -44,6 +57,38 @@ export const categoriesQuery = gql`
       categories {
          id
          name
+      }
+   }
+`;
+
+export const expensesQuery = gql`
+   query Expenses($groupId: ID!) {
+      expenses(groupId: $groupId) {
+         id
+         item
+         price
+         taxRate
+         shop {
+            id
+            name
+         }
+         paidAt
+         paidUser {
+            id
+            name
+         }
+         consumedUsers {
+            id
+            name
+         }
+         group {
+            id
+            name
+         }
+         category {
+            id
+            name
+         }
       }
    }
 `;

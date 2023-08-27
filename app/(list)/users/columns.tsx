@@ -8,7 +8,6 @@ export type Group = {
 	name: string;
 };
 
-
 export type User = {
 	id: string;
 	name: string;

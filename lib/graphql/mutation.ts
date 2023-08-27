@@ -98,3 +98,75 @@ export const DeleteCategoryMutation = gql`
 		}
 	}
 `;
+
+export const AddExpenseMutation = gql`
+   mutation addExpense($item: String!, $price: Float!, $taxRate: Float!, $shopId: ID!, $paidAt: String, $userId: ID!, $consumedUsers: [ID], $groupId: ID!, $categoryId: ID!) {
+      addExpense(item: $item, price: $price, taxRate: $taxRate, shopId: $shopId, paidAt: $paidAt, userId: $userId, consumedUsers: $consumedUsers, groupId: $groupId, categoryId: $categoryId) {
+         id
+         item
+         price
+         taxRate
+         shop {
+            id
+            name
+         }
+         paidAt
+         paidUser {
+            id
+            name
+         }
+			userId
+         consumedUsers {
+            id
+            name
+         }
+         group {
+            id
+            name
+         }
+         category {
+            id
+            name
+         }
+		}
+	}
+`;
+export const UpdateExpenseMutation = gql`
+   mutation updateExpense($id: ID!, $item: String!, $price: Float!, $taxRate: Float!, $shopId: ID!, $paidAt: String, $userId: ID!, $consumedUsers: [ID], $groupId: ID!, $categoryId: ID!) {
+      updateExpense(id: $id, item: $item, price: $price, taxRate: $taxRate, shopId: $shopId, paidAt: $paidAt, userId: $userId, consumedUsers: $consumedUsers, groupId: $groupId, categoryId: $categoryId) {
+         id
+         item
+         price
+         taxRate
+         shop {
+            id
+            name
+         }
+         paidAt
+         paidUser {
+            id
+            name
+         }
+			userId
+         consumedUsers {
+            id
+            name
+         }
+         group {
+            id
+            name
+         }
+         category {
+            id
+            name
+         }
+		}
+	}
+`;
+export const DeleteExpenseMutation = gql`
+   mutation deleteExpense($id: ID!) {
+      deleteExpense(id: $id) {
+         id
+		}
+	}
+`;

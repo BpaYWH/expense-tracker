@@ -12,7 +12,7 @@ import {
 
 function SideBar(): JSX.Element {
 	return (
-		<div className="flex flex-col justify-between py-4 h-screen border-r shadow-xl">
+		<div className="sticky top-0 left-0 flex flex-col justify-between py-4 h-screen border-r shadow-xl col-span-2 md:col-span-1">
 			<div id="content">
 				<div className="w-1/2 min-w-[24px] mx-auto mb-4">
 					<a href="/">

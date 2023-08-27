@@ -24,7 +24,7 @@ export default function RootLayout({
 				<SideBar />
 
 				<ApolloWrapper>
-					<div className="col-span-11">{children}</div>
+					<div className="col-span-10 md:col-span-11">{children}</div>
 				</ApolloWrapper>
 			</body>
 		</html>

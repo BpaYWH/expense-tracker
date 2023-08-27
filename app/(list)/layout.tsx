@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 const pathnameProcessor = (pathname: string | null): string => {
 	// return the pathname without the leading slash and capitalize the whole string
 	if (pathname === null) return "Expense Tracker";
-	return pathname.replace("/", "").toUpperCase();
+	return pathname.replace("/", "").toUpperCase().split("/")[0];
 };
 
 export default function Layout({
