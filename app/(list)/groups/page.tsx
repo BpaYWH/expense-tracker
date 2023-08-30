@@ -8,15 +8,20 @@ import DataTable from "@/components/data-table";
 import MutationDialog from "@/components/mutation-dialog";
 
 import { groupsQuery } from "@/lib/graphql/query";
-import { AddGroupMutation, DeleteGroupMutation, UpdateGroupMutation } from "@/lib/graphql/mutation";
+import {
+	AddGroupMutation,
+	DeleteGroupMutation,
+	UpdateGroupMutation,
+} from "@/lib/graphql/mutation";
 
 const AddGroupDialogProps = {
 	triggerText: "Add Group",
 	header: "Add New Group",
 	buttonText: "Add",
-	description: "Write the name of the group you want to add. Click add when you're done.",
+	description:
+		"Write the name of the group you want to add. Click add when you're done.",
 	inputLabel: "Name",
-}
+};
 
 function GroupPage(): JSX.Element {
 	const { error, data } = useSuspenseQuery(groupsQuery);
@@ -40,11 +45,14 @@ function GroupPage(): JSX.Element {
 			>
 				<p>Total no. of group : {(data as any).groups.length}</p>
 
-        		<MutationDialog mutator={addGroup} {...AddGroupDialogProps}  />
+				<MutationDialog mutator={addGroup} {...AddGroupDialogProps} />
 			</div>
 
 			<div id="dataTable" className="px-4">
-				<DataTable columns={columns({ updator: updateGroup, deleter: deleteGroup })} data={(data as any).groups} />
+				<DataTable
+					columns={columns({ updator: updateGroup, deleter: deleteGroup })}
+					data={(data as any).groups}
+				/>
 			</div>
 		</div>
 	);

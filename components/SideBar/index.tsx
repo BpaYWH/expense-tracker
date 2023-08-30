@@ -3,7 +3,7 @@ import {
 	BarChartBig,
 	Component,
 	DollarSign,
-	Moon,
+	// Moon,
 	Store,
 	Sun,
 	Users,
@@ -16,27 +16,49 @@ function SideBar(): JSX.Element {
 			<div id="content">
 				<div className="w-1/2 min-w-[24px] mx-auto mb-4">
 					<a href="/">
-						<img src="/images/logo.svg" alt="logo" className="py-1 rounded-2xl aspect-square" />
+						<img
+							src="/images/logo.svg"
+							alt="logo"
+							className="py-1 rounded-2xl aspect-square"
+						/>
 					</a>
 				</div>
 
 				<div id="content" className="flex flex-col border-t">
-					<a href="/users" className="py-4 flex justify-center w-full hover:bg-slate-100">
+					<a
+						href="/users"
+						className="py-4 flex justify-center w-full hover:bg-slate-100"
+					>
 						<User />
 					</a>
-					<a href="/groups" className="py-4 flex justify-center w-full hover:bg-slate-100">
+					<a
+						href="/groups"
+						className="py-4 flex justify-center w-full hover:bg-slate-100"
+					>
 						<Users />
 					</a>
-					<a href="/shops" className="py-4 flex justify-center w-full hover:bg-slate-100">
+					<a
+						href="/shops"
+						className="py-4 flex justify-center w-full hover:bg-slate-100"
+					>
 						<Store />
 					</a>
-					<a href="/categories" className="py-4 flex justify-center w-full hover:bg-slate-100">
+					<a
+						href="/categories"
+						className="py-4 flex justify-center w-full hover:bg-slate-100"
+					>
 						<Component />
 					</a>
-					<a href="/expenses" className="py-4 flex justify-center w-full hover:bg-slate-100">
+					<a
+						href="/expenses"
+						className="py-4 flex justify-center w-full hover:bg-slate-100"
+					>
 						<DollarSign />
 					</a>
-					<a href="/summary" className="py-4 flex justify-center w-full hover:bg-slate-100">
+					<a
+						href="/summary"
+						className="py-4 flex justify-center w-full hover:bg-slate-100"
+					>
 						<BarChartBig />
 					</a>
 				</div>

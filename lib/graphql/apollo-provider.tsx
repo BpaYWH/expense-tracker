@@ -10,11 +10,20 @@ import {
 
 function makeClient(): NextSSRApolloClient<any> {
 	const httpLink = new HttpLink({
-		uri: "http://localhost:3000/api/graphql",
+		uri: `${process.env.APP_URL as string}/api/graphql`,
+		// uri: "/api/graphql",
 	});
 
 	return new NextSSRApolloClient({
 		cache: new NextSSRInMemoryCache(),
+		defaultOptions: {
+			query: {
+				fetchPolicy: "no-cache",
+			},
+			watchQuery: {
+				fetchPolicy: "no-cache",
+			},
+		},
 		link:
 			typeof window === "undefined"
 				? ApolloLink.from([

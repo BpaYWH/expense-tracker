@@ -1,23 +1,23 @@
 "use client";
 import type { ColumnDef } from "@tanstack/react-table";
 import React from "react";
-import { format } from "date-fns"
+import { format } from "date-fns";
 import fromUnixTime from "date-fns/fromUnixTime";
 import ActionsCell from "./actions-cell";
 
-import { Shop } from "../../shops/columns";
-import { Category } from "../../categories/columns";
+import type { Shop } from "../../shops/columns";
+import type { Category } from "../../categories/columns";
 
-export type User = {
+export interface User {
 	id: string;
 	name: string;
 };
-export type Group = {
+export interface Group {
 	id: string;
 	name: string;
 };
 
-export type Expense = {
+export interface Expense {
 	id: string;
 	item: string;
 	price: string;
@@ -28,15 +28,14 @@ export type Expense = {
 	consumedUsers: User[];
 	group: Group;
 	category: Category;
-}
+};
 
-export const columns = (mutators: any, baseData: any): ColumnDef<Expense>[] => {
- return (
-	[
+export const columns = (mutators: any, baseData: any): Array<ColumnDef<Expense>> => {
+	return [
 		{
 			accessorKey: "category",
 			header: "Category",
-			cell: ({ row }) => <p>{row.original.category.name}</p>
+			cell: ({ row }) => <p>{row.original.category.name}</p>,
 		},
 		{
 			accessorKey: "item",
@@ -53,7 +52,7 @@ export const columns = (mutators: any, baseData: any): ColumnDef<Expense>[] => {
 		{
 			accessorKey: "shop",
 			header: "Shop",
-			cell: ({ row }) => <p>{row.original.shop.name}</p>
+			cell: ({ row }) => <p>{row.original.shop.name}</p>,
 		},
 		{
 			accessorKey: "paidUser",
@@ -64,33 +63,34 @@ export const columns = (mutators: any, baseData: any): ColumnDef<Expense>[] => {
 			accessorKey: "consumedUsers",
 			header: "Consumed By",
 			cell: ({ row }) => {
-				const item  = row.original.item;
+				const item = row.original.item;
 				const users = row.original.consumedUsers;
-				return (
-					users.map((user) => (
-						<p key={`${item}-${user.id}`}>{user.name}</p>
-					))
-				)
-			}
+				return users.map((user) => (
+					<p key={`${item}-${user.id}`}>{user.name}</p>
+				));
+			},
 		},
 		{
 			accessorKey: "paidAt",
 			header: "Paid Date",
 			cell: ({ row }) => {
 				const unix = row.original.paidAt;
-				return (
-					<p>{format(fromUnixTime(Number(unix) / 1000), "yyyy-MM-dd")}</p>
-				)
-			}
+				return <p>{format(fromUnixTime(Number(unix) / 1000), "yyyy-MM-dd")}</p>;
+			},
 		},
 		{
 			accessorKey: "actions",
 			cell: ({ row }) => {
 				const expenses = row.original;
 				return (
-					<ActionsCell {...expenses} baseData={baseData} updator={mutators.updator} deleter={mutators.deleter} />
+					<ActionsCell
+						{...expenses}
+						baseData={baseData}
+						updator={mutators.updator}
+						deleter={mutators.deleter}
+					/>
 				);
 			},
 		},
-	]);
-}
+	];
+};

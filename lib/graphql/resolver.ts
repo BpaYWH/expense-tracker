@@ -1,5 +1,5 @@
 import type { PrismaClient } from "@prisma/client";
-import fromUnixTime from 'date-fns/fromUnixTime'
+import fromUnixTime from "date-fns/fromUnixTime";
 
 export interface Context {
 	prisma: PrismaClient;
@@ -31,6 +31,20 @@ export const resolvers = {
 				},
 				include: {
 					users: true,
+					expenses: {
+						where: {
+							paidAt: {
+								gte: args.startDate,
+								lte: args.endDate,
+							},
+						},
+						include: {
+							paidUser: true,
+							shop: true,
+							category: true,
+							consumedUsers: true,
+						},
+					},
 				},
 			});
 		},
@@ -53,7 +67,7 @@ export const resolvers = {
 					group: {
 						include: {
 							users: true,
-						}
+						},
 					},
 					shop: true,
 					category: true,
@@ -103,7 +117,8 @@ export const resolvers = {
 					item: args.item,
 					price: Number(args.price),
 					taxRate: Number(args.taxRate),
-					paidAt: fromUnixTime(args.paidAt),
+					// paidAt: fromUnixTime(args.paidAt),
+					paidAt: args.paidAt,
 					paidUser: {
 						connect: {
 							id: Number(args.userId),
@@ -125,7 +140,9 @@ export const resolvers = {
 						},
 					},
 					consumedUsers: {
-						connect: args.consumedUsers?.map((id: string) => { id: Number(id) }),
+						connect: args.consumedUsers?.map((id: string) => ({
+							id: Number(id)
+						})),
 					},
 				},
 			});
@@ -148,14 +165,22 @@ export const resolvers = {
 				include: {
 					users: {
 						select: {
-							id: true
-						}
-					}
+							id: true,
+						},
+					},
 				},
 			});
-			
-			const usersToConnect = args.users.filter((name: string) => !originalUsers?.users.map((user: any) => user.name).includes(name))?.map((id: string) => ({ id: Number(id) }));
-			const usersToDisconnect = originalUsers?.users.filter((user: any) => !args.users.includes(user.name));
+
+			const usersToConnect = args.users
+				.filter(
+					(name: string) =>
+						!((originalUsers?.users.map((user: any) => user.name).includes(name)) ?? false),
+				)
+				?.map((id: string) => ({ id: Number(id) }));
+			const usersToDisconnect = originalUsers?.users.filter(
+				// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+				(user: any) => !(args.users.includes(user.name)),
+			);
 
 			return await context.prisma.group.update({
 				where: {
@@ -165,9 +190,9 @@ export const resolvers = {
 					name: args.name,
 					users: {
 						connect: usersToConnect,
-						disconnect: usersToDisconnect
-					}
-				}
+						disconnect: usersToDisconnect,
+					},
+				},
 			});
 		},
 		updateShop: async (parent: any, args: any, context: Context) => {
@@ -191,17 +216,6 @@ export const resolvers = {
 			});
 		},
 		updateExpense: async (parent: any, args: any, context: Context) => {
-			// const original = await context.prisma.expense.findFirst({
-			// 	where: {
-			// 		id: Number(args.id)
-			// 	},
-			// 	include: {
-			// 		shop: true,
-			// 		category: true,
-			// 		consumedUsers: true
-			// 	}
-			// });
-
 			return await context.prisma.expense.update({
 				where: {
 					id: Number(args.id),
@@ -210,7 +224,7 @@ export const resolvers = {
 					item: args.item,
 					price: Number(args.price),
 					taxRate: Number(args.taxRate),
-					paidAt: fromUnixTime(Number(args.paidAt)/1000),
+					paidAt: fromUnixTime(Number(args.paidAt) / 1000),
 					paidUser: {
 						connect: {
 							id: Number(args.userId),
@@ -227,7 +241,9 @@ export const resolvers = {
 						},
 					},
 					consumedUsers: {
-						connect: args.consumedUsers?.map((id: string) => { id: Number(id) }),
+						connect: args.consumedUsers?.map((id: string) => ({
+							id: Number(id)
+						})),
 					},
 				},
 			});

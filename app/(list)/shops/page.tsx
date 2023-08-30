@@ -8,22 +8,27 @@ import DataTable from "@/components/data-table";
 import MutationDialog from "@/components/mutation-dialog";
 
 import { shopsQuery } from "@/lib/graphql/query";
-import { AddShopMutation, DeleteShopMutation, UpdateShopMutation } from "@/lib/graphql/mutation";
+import {
+	AddShopMutation,
+	DeleteShopMutation,
+	UpdateShopMutation,
+} from "@/lib/graphql/mutation";
 
 const AddShopDialogProps = {
 	triggerText: "Add Shop",
 	header: "Add New Shop",
 	buttonText: "Add",
-	description: "Write the name of the shop you want to add. Click add when you're done.",
+	description:
+		"Write the name of the shop you want to add. Click add when you're done.",
 	inputLabel: "Name",
-}
+};
 
 function ShopPage(): JSX.Element {
 	const { error, data } = useSuspenseQuery(shopsQuery);
 	if (error != null) return <div>Error! ${error.message}</div>;
 
 	const [addShop] = useMutation(AddShopMutation, {
-		refetchQueries: [shopsQuery]
+		refetchQueries: [shopsQuery],
 	});
 	const [updateShop] = useMutation(UpdateShopMutation, {
 		refetchQueries: [shopsQuery],
@@ -40,11 +45,14 @@ function ShopPage(): JSX.Element {
 			>
 				<p>Total no. of shop : {(data as any).shops.length}</p>
 
-        		<MutationDialog mutator={addShop} {...AddShopDialogProps} />
+				<MutationDialog mutator={addShop} {...AddShopDialogProps} />
 			</div>
 
 			<div id="dataTable" className="px-4">
-				<DataTable columns={columns({ updator: updateShop, deleter: deleteShop })} data={(data as any).shops} />
+				<DataTable
+					columns={columns({ updator: updateShop, deleter: deleteShop })}
+					data={(data as any).shops}
+				/>
 			</div>
 		</div>
 	);

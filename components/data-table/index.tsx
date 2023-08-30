@@ -20,11 +20,14 @@ import {
 } from "@/components/ui/table";
 
 interface DataTableProps<TData, TValue> {
-	columns: ColumnDef<TData, TValue>[];
+	columns: Array<ColumnDef<TData, TValue>>;
 	data: TData[];
 }
 
-export default function DataTable<TData, TValue>({ columns, data, }: DataTableProps<TData, TValue>): JSX.Element {
+export default function DataTable<TData, TValue>({
+	columns,
+	data,
+}: DataTableProps<TData, TValue>): JSX.Element {
 	const table = useReactTable({
 		data,
 		columns,
@@ -92,7 +95,7 @@ export default function DataTable<TData, TValue>({ columns, data, }: DataTablePr
 					className="text-xs sm:text-sm"
 					variant="outline"
 					size="sm"
-					onClick={() => table.previousPage()}
+					onClick={() => {table.previousPage()}}
 					disabled={!table.getCanPreviousPage()}
 				>
 					Previous
@@ -101,7 +104,7 @@ export default function DataTable<TData, TValue>({ columns, data, }: DataTablePr
 					className="text-xs sm:text-sm"
 					variant="outline"
 					size="sm"
-					onClick={() => table.nextPage()}
+					onClick={() => {table.nextPage()}}
 					disabled={!table.getCanNextPage()}
 				>
 					Next

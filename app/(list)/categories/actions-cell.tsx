@@ -1,6 +1,6 @@
 "use client";
-import React from 'react'
-import { Button } from '@/components/ui/button';
+import React from "react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
 	Dialog,
@@ -12,11 +12,11 @@ import {
 	DialogTrigger,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import MutationDialog from '@/components/mutation-dialog';
+import MutationDialog from "@/components/mutation-dialog";
 
 interface Props {
-   id: string;
-   name: string;
+	id: string;
+	name: string;
 	updator: any;
 	deleter: any;
 }
@@ -26,52 +26,70 @@ const UpdateCategoryDialogProps = {
 	header: "Edit Category Info",
 	buttonText: "Save",
 	inputLabel: "Name",
-}
+};
 
 function ActionsCell({ id, name, updator, deleter }: Props): JSX.Element {
-   const [confirmName, setConfirmName] = React.useState<string>("");
+	const [confirmName, setConfirmName] = React.useState<string>("");
 
-   const handleDelete = () => {
-      deleter({ variables: { id } });
-      setConfirmName("");
-   }
+	const handleDelete = (): void => {
+		deleter({ variables: { id } });
+		setConfirmName("");
+	};
 
-  return (
-    <div className='flex gap-4'>
-		<MutationDialog dataId={id} mutator={updator} triggerButtonVariant="ghost" description={`Change the name of ${name}. Click save when you're done.`} {...UpdateCategoryDialogProps} />
+	return (
+		<div className="flex gap-4">
+			<MutationDialog
+				dataId={id}
+				mutator={updator}
+				triggerButtonVariant="ghost"
+				description={`Change the name of ${name}. Click save when you're done.`}
+				{...UpdateCategoryDialogProps}
+			/>
 
-      <Dialog>
-			<DialogTrigger asChild>
-				<Button variant="ghost">Delete</Button>
-			</DialogTrigger>
+			<Dialog>
+				<DialogTrigger asChild>
+					<Button variant="ghost">Delete</Button>
+				</DialogTrigger>
 
-			<DialogContent className="sm:max-w-[425px]">
-				<DialogHeader>
-					<DialogTitle>Delete Category</DialogTitle>
+				<DialogContent className="sm:max-w-[425px]">
+					<DialogHeader>
+						<DialogTitle>Delete Category</DialogTitle>
 
-					<DialogDescription>
-						Delete {name}'s account. Type {name} to confirm.
-					</DialogDescription>
-				</DialogHeader>
+						<DialogDescription>
+							Delete {name}&apos;s account. Type {name} to confirm.
+						</DialogDescription>
+					</DialogHeader>
 
-				<div className="grid gap-4 py-4">
-					<div className="grid grid-cols-4 items-center gap-4">
-						<Label htmlFor="name" className="text-right">
-							Name
-						</Label>
-						<Input id="name" value={confirmName} onChange={(e) => setConfirmName(e.target.value)} className="col-span-3" />
+					<div className="grid gap-4 py-4">
+						<div className="grid grid-cols-4 items-center gap-4">
+							<Label htmlFor="name" className="text-right">
+								Name
+							</Label>
+							<Input
+								id="name"
+								value={confirmName}
+								onChange={(e) => {setConfirmName(e.target.value)}}
+								className="col-span-3"
+							/>
+						</div>
 					</div>
-				</div>
 
-            <DialogFooter>
-               <DialogTrigger asChild>
-                  <Button variant="destructive" type="submit" onClick={handleDelete} disabled={confirmName !== name}>Delete</Button>
-               </DialogTrigger>
-            </DialogFooter>
-			</DialogContent>
-		</Dialog>
-   </div>
-  )
+					<DialogFooter>
+						<DialogTrigger asChild>
+							<Button
+								variant="destructive"
+								type="submit"
+								onClick={handleDelete}
+								disabled={confirmName !== name}
+							>
+								Delete
+							</Button>
+						</DialogTrigger>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
+		</div>
+	);
 }
 
-export default ActionsCell
+export default ActionsCell;

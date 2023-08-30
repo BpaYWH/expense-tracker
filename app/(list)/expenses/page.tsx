@@ -12,34 +12,30 @@ function ExpensePage(): JSX.Element {
 		<div className="px-8">
 			<h1 className="mb-4 text-xl">Choose your group</h1>
 			<ul>
-				{
-					(data as any).groups?.map((group: any) => {
-						if (group.users?.length) return (
-							<li key={group.name} className="group/group border rounded-md mb-2 hover:bg-slate-50 hover:shadow-md transition">
-								<a href={`expenses/${group.id}`}>
+				{(data as any).groups?.map((group: any) => {
+					if (group.users?.length > 0)
+						return (
+							<li
+								key={group.name}
+								className="group/group border rounded-md mb-2 hover:bg-slate-50 hover:shadow-md transition"
+							>
+								<a href={`expenses/${group.id as string}`}>
 									<div className="flex justify-between p-4">
 										<p>{group.name}</p>
 										<div className="flex justify-end gap-4 invisible group-hover/group:visible transition">
-											{
-												group.users.slice(0, 4).map((user: any) => 
-													<p key={`group-${group.id}-member-${user.id}`}>
-														{user.name}
-													</p>
-												)
-											}
-											{
-												group.users?.length > 4 ?
-												"..."
-												:
-												""
-											}
+											{group.users.slice(0, 4).map((user: any) => (
+												<p key={`group-${group.id as string}-member-${user.id as string}`}>
+													{user.name}
+												</p>
+											))}
+											{group.users?.length > 4 ? "..." : ""}
 										</div>
 									</div>
 								</a>
 							</li>
 						);
-					})
-				}
+					return null;
+				})}
 			</ul>
 		</div>
 	);

@@ -15,6 +15,7 @@
 	},
 	"plugins": ["react"],
 	"rules": {
-		"array-type": false
-	}
+		"array-type": 0
+	},
+	"ignorePatterns": ["**/components/ui/*.tsx"]
 }
